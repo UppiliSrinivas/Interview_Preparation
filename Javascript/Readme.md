@@ -125,15 +125,20 @@ true || false  // true
 ## 2. Functions & Scope
 
 ### Q7: What is the difference between `var`, `let`, and `const`?
-**A:** 
+**A:** In JavaScript, var, let, and const are used to declare variables, but they differ in scope, hoisting behavior, and mutability.
+Modern JavaScript prefers let and const because they provide better scoping rules and safer code, while var is considered legacy.
 
-| Feature | var | let | const |
-|---------|-----|-----|-------|
-| Scope | Function | Block | Block |
-| Re-declaration | Yes | No | No |
-| Re-assignment | Yes | Yes | No |
-| Hoisting | Yes (undefined) | Yes (TDZ) | Yes (TDZ) |
-| Initialization Required | No | No | Yes |
+| Feature | `var` | `let` | `const` |
+|-------|------|------|--------|
+| Scope | Function-scoped | Block-scoped | Block-scoped |
+| Hoisting | Hoisted and initialized as `undefined` | Hoisted but in Temporal Dead Zone (TDZ) | Hoisted but in Temporal Dead Zone (TDZ) |
+| Re-declaration | Allowed | Not allowed | Not allowed |
+| Re-assignment | Allowed | Allowed | Not allowed |
+| Initialization | Optional | Optional | Mandatory at declaration |
+| Temporal Dead Zone | No | Yes | Yes |
+| Global object binding | Added to `window` | Not added | Not added |
+| Use case | Legacy code | Variables that change | Constants / fixed references |
+| Modern usage | Not recommended | Recommended | Preferred by default |
 
 ```javascript
 // var - function scoped
@@ -243,7 +248,9 @@ const getRandom = () => Math.random();
 ```
 
 ### Q11: What's the key difference between arrow functions and regular functions?
-**A:** 
+**A:** Arrow functions and regular functions are two ways to define functions in JavaScript.
+The key difference is that arrow functions do not have their own this, arguments, or prototype, whereas regular functions do.
+Arrow functions are designed for short, concise functions and callbacks, while regular functions are more flexible and suitable for object methods and constructors.
 
 **1. `this` binding:**
 ```javascript
@@ -321,7 +328,7 @@ console.log(counter()); // 3
 ```
 
 ### Q14: What are practical use cases for closures?
-**A:** 
+**A:** Closures are used to maintain state, create private variables, build reusable function factories, and handle async callbacks without global variables.
 
 **1. Data Privacy:**
 ```javascript
