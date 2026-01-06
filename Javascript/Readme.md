@@ -471,6 +471,7 @@ console.log(person.name); // "Jane"
 
 ### Q18: What are `call()`, `apply()`, and `bind()`?
 **A:** These methods allow explicit control over the `this` context.
+call and apply execute immediately with a custom this, while bind returns a new function with permanently bound this.
 
 **call()** - Invokes function with specific `this` and individual arguments:
 ```javascript
@@ -498,7 +499,39 @@ boundGreet("?"); // "Hey, Alice?"
 ## 6. Promises & Async/Await
 
 ### Q19: What is a Promise?
-**A:** A Promise represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+**A:** A Promise is an object that represents the eventual completion or failure of an asynchronous operation and its resulting value.
+
+### Before Promises (Using Callbacks)
+
+Before Promises were introduced, JavaScript handled asynchronous operations using **callbacks**. While callbacks worked, they introduced several problems as applications grew in complexity:
+
+- Callback Hell (Pyramid of Doom)
+
+- Hard-to-Read Code  
+
+- Difficult Error Handling
+---
+
+### How Promises Solve These Problems
+
+Promises were introduced to provide a cleaner and more structured way to handle asynchronous code:
+
+- Better Readability  
+  Linear, predictable flow that is easier to understand and maintain.
+
+- Chainable Syntax  
+  `.then()` allows chaining multiple async operations without deep nesting.
+
+- Centralized Error Handling  
+  A single `.catch()` can handle errors from the entire promise chain.
+
+---
+
+### Summary
+
+Callbacks were functional but problematic at scale.  
+Promises brought structure, clarity, and reliability to asynchronous JavaScript, laying the foundation for modern patterns like **async/await**.
+
 
 ```javascript
 const promise = new Promise((resolve, reject) => {
@@ -541,7 +574,7 @@ Promise.allSettled([promise1, promise2])
 ```
 
 ### Q21: What is async/await?
-**A:** Async/await is syntactic sugar over Promises that makes asynchronous code look synchronous.
+**A:** Async/await is syntactic sugar over Promises that makes asynchronous code look synchronous code.
 
 ```javascript
 async function fetchData() {
