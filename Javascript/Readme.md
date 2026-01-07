@@ -554,24 +554,61 @@ promise
 ### Q20: How do you use Promise methods?
 **A:**
 
-**Promise.all()** - Waits for all promises:
+**Promise.all()** - Runs multiple promises in parallel and waits until **all** of them are fulfilled.
+
+**Behavior**
+- If **all promises resolve** → returns an array of results.
+- If **any promise rejects** → entire `Promise.all()` rejects immediately.
+
+**Use Cases**
+- Fetching multiple APIs together.
+- Loading multiple resources in parallel.
+
 ```javascript
 Promise.all([promise1, promise2, promise3])
     .then(results => console.log(results))
     .catch(error => console.error("One failed:", error));
 ```
 
-**Promise.race()** - Returns first settled promise:
+**Promise.race()** - Returns the result of the first promise that settles (resolve or reject).
+
+**Behavior**
+- First fulfilled → resolves
+- First rejected → rejects
+
+**Use Cases**
+- API request timeout system.
+- Choosing the fastest server.
+
 ```javascript
 Promise.race([promise1, promise2])
     .then(result => console.log("First result:", result));
+    .catch(err => console.error(err));
 ```
 
-**Promise.allSettled()** - Waits for all, returns status:
+**Promise.allSettled()** - Waits for all promises to complete, regardless of whether they resolve or reject.
+
+**Use Cases**
+- Bulk operations where failures should not stop the process.
+- Logging all results.
+- Displaying partial results.
+
 ```javascript
 Promise.allSettled([promise1, promise2])
     .then(results => console.log(results));
 ```
+
+**Promise.allSettled()** - Returns the first promise that fulfills and ignores rejected ones.
+
+**Behavior**
+
+- If one fulfills → resolves
+- If all reject → rejects with AggregateError
+
+**Use Cases**
+
+- Fallback or failover strategy (take the first successful response).
+- Waiting for the first working resource or API.
 
 ### Q21: What is async/await?
 **A:** Async/await is syntactic sugar over Promises that makes asynchronous code look synchronous code.
