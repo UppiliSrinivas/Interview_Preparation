@@ -1039,7 +1039,7 @@ console.log(person.__proto__ === Person.prototype); // true
 ## 13. Currying
 
 ### Q36: What is currying?
-**A:** Currying is a technique of converting a function that takes multiple arguments into a sequence of functions that take one argument each.
+**A:** Currying is a technique in JavaScript where a function that takes multiple arguments is transformed into a sequence of functions, each taking one argument at a time.
 
 ```javascript
 // Regular function
@@ -1066,6 +1066,17 @@ add(1)(2)(3); // 6
 ### Q37: Why use currying?
 **A:** 
 
+**1. Reusability (Create specialized functions)**
+```javascript
+const add10 = add(10); 
+add10(5); // 15
+```
+
+**2. Avoid repeating arguments**
+Useful in functional programming, React, Redux, Lodash.
+
+**3. Better composition & cleaner code**
+
 **Partial Application:**
 ```javascript
 const add = a => b => a + b;
@@ -1082,28 +1093,43 @@ const double = multiply(2);
 ```
 
 ### Q38: How do you implement a curry function?
-**A:**
+**A:** Practical Example: Discount Calculator
+
+**Normal function**
 
 ```javascript
-function curry(fn) {
-    const arity = fn.length; // Number of parameters
-    
-    return function $curry(...args) {
-        if (args.length < arity) {
-            return (...nextArgs) => $curry(...args, ...nextArgs);
-        }
-        return fn(...args);
-    };
+function discount(rate, price) {
+  return price - price * rate;
 }
 
-// Usage
-function add(a, b, c) {
-    return a + b + c;
+discount(0.10, 200);
+```
+
+**Curried Version:**
+
+```javascript
+function discount(rate) {
+  return function(price) {
+    return price - price * rate;
+  };
 }
 
-const curriedAdd = curry(add);
-curriedAdd(1)(2)(3); // 6
-curriedAdd(1, 2)(3); // 6
+const tenPercent = discount(0.10);
+console.log(tenPercent(200)); // 180
+```
+You can reuse tenPercent anywhere.
+
+**More Advanced Example: Infinite Currying**
+
+```javascript
+function add(a) {
+  return function(b) {
+    if (b) return add(a + b);
+    return a;
+  };
+}
+
+console.log(add(1)(2)(3)(4)()); // 10
 ```
 
 ---
@@ -1111,7 +1137,15 @@ curriedAdd(1, 2)(3); // 6
 ## 14. Debounce & Throttle
 
 ### Q39: What is debouncing?
-**A:** Debouncing ensures a function is called only once after a series of events stop occurring.
+**A:** Debounce delays the execution of a function until the user stops triggering the event for a specified time.
+
+Function runs after the last event.
+
+**📍 Best Use Cases**
+- Search box autocomplete
+- Form validation
+- Window resize events
+- Preventing API spam
 
 ```javascript
 function debounce(fn, delay) {
@@ -1132,7 +1166,16 @@ input.addEventListener('input', search);
 ```
 
 ### Q40: What is throttling?
-**A:** Throttling ensures a function is called at most once every specified time interval.
+**A:** Throttle ensures a function runs at most once every given interval, no matter how many times the event fires.
+
+Function runs at regular intervals, ignoring extra triggers.
+
+**📍 Best Use Cases**
+- Scroll events
+- Infinite scrolling
+- Mouse move events
+- Prevent button double-click
+- Updating progress bars
 
 ```javascript
 function throttle(fn, delay) {
