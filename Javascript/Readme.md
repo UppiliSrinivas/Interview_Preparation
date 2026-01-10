@@ -1500,6 +1500,196 @@ deep.nested.x = 99;
 console.log(original.a); // 1 (independent)
 console.log(original.nested.x); // 10 (still independent)
 ```
+
+# ES6+ Features (JavaScript Modern Features)
+
+This document lists all major features introduced from **ES6 (2015)** to **ES2023+**, commonly asked in frontend and JavaScript interviews.
+
+---
+
+## 🚀 ES6 (2015)
+
+### 1. let & const  
+Block-scoped variable declarations.
+
+### 2. Arrow Functions  
+Shorter syntax and lexical `this`.
+
+### 3. Template Literals  
+Backticks with `${}` string interpolation.
+
+### 4. Default Parameters  
+Default function parameter values.
+
+### 5. Rest & Spread Operators  
+`...rest`, `...spread` for combining/splitting data.
+
+### 6. Destructuring  
+Extract values from objects and arrays.
+
+### 7. Classes  
+Cleaner OOP syntax for prototypes.
+
+### 8. Promises  
+Better async handling.
+
+### 9. Modules  
+`import` / `export` syntax for modular JS.
+
+### 10. Enhanced Object Literals  
+Shorthand properties, method definitions.
+
+### 11. Symbol  
+New primitive type for unique identifiers.
+
+### 12. Iterators & Generators  
+Custom iteration behavior and pausable functions.
+
+### 13. Map & Set  
+Efficient key/value and unique value storage.
+
+### 14. WeakMap & WeakSet  
+Garbage-collectable collections.
+
+### 15. for...of Loop  
+Simpler loop for iterable objects.
+
+---
+
+## 🚀 ES7 (2016)
+
+### 1. Array.includes()  
+Check element existence.
+
+### 2. Exponentiation Operator  
+`a ** b` instead of `Math.pow()`.
+
+---
+
+## 🚀 ES8 (2017)
+
+### 1. Async / Await  
+Synchronous-style async programming.
+
+### 2. Object.values()  
+Get object values.
+
+### 3. Object.entries()  
+Get object key-value pairs.
+
+### 4. String Padding  
+`padStart`, `padEnd`.
+
+### 5. Trailing Commas in Functions  
+Cleaner multi-line code.
+
+---
+
+## 🚀 ES9 (2018)
+
+### 1. Rest/Spread for Objects  
+`{ ...obj }`.
+
+### 2. Asynchronous Iteration  
+`for await...of`.
+
+### 3. Promise.finally()  
+Runs after promise settles.
+
+---
+
+## 🚀 ES10 (2019)
+
+### 1. Array.flat()  
+Flatten nested arrays.
+
+### 2. Array.flatMap()  
+Map + flatten.
+
+### 3. Object.fromEntries()  
+Reverse of `Object.entries()`.
+
+### 4. String.trimStart(), trimEnd()  
+Trim left/right whitespace.
+
+### 5. Optional Catch Binding  
+Catch errors without variable.
+
+---
+
+## 🚀 ES11 (2020)
+
+### 1. Optional Chaining (?.)  
+Safe nested object access.
+
+### 2. Nullish Coalescing (??)  
+Default values only when `null` or `undefined`.
+
+### 3. BigInt  
+Handle very large integers.
+
+### 4. Promise.allSettled()  
+Wait for all promises to finish (resolve or reject).
+
+### 5. globalThis  
+Universal global object.
+
+---
+
+## 🚀 ES12 (2021)
+
+### 1. Logical Assignment Operators  
+`&&=`, `||=`, `??=`.
+
+### 2. Numeric Separators  
+`1_000_000`.
+
+### 3. String.replaceAll()  
+Replace all occurrences.
+
+### 4. WeakRef  
+Weak references to objects.
+
+### 5. FinalizationRegistry  
+Cleanup callbacks when objects are collected.
+
+---
+
+## 🚀 ES13 (2022)
+
+### 1. Top-level await  
+Use `await` outside async functions.
+
+### 2. Array.at()  
+Access array with positive or negative index.
+
+### 3. Object.hasOwn()  
+Safer alternative to `hasOwnProperty`.
+
+---
+
+## 🚀 ES14 (2023)
+
+### 1. Hashbang Support  
+`#!/usr/bin/env node` in JS files.
+
+### 2. WeakMap Improvements  
+Support for Symbols as keys.
+
+---
+
+## 🚀 ES15 (2024+)
+
+### 1. Pipeline Operator (experimental)  
+Functional chaining: `value |> func`.
+
+### 2. New RegExp Improvements  
+Better matching and flags.
+
+### 3. Iterator Helpers (proposal stage)  
+Easier to work with iterable data.
+
+
 ---
 
 ## Practice Tips for Interviews
