@@ -1,7 +1,7 @@
 # JavaScript Interview Prep — Q&A Format
 
 **Level:** Beginner to Advanced  
-**Updated:** December 18, 2025  
+**Updated:** Feb 16, 2026  
 **Format:** Question & Answer
 
 ---
@@ -23,6 +23,8 @@
 - Currying
 - Debounce & Throttle
 - Polyfills (Implements map, filter, reduce)
+- Deadlock
+- Shadow DOM
 - Common Interview Questions
 
 ---
@@ -58,17 +60,17 @@
 **A:** Using the `typeof` operator:
 
 ```javascript
-typeof 42 // "number"
-typeof "hello" // "string"
-typeof true // "boolean"
-typeof undefined // "undefined"
-typeof null // "object" // known quirk
-typeof Symbol() // "symbol"
-typeof {} // "object"
-typeof [] // "object"
+typeof 42; // "number"
+typeof "hello"; // "string"
+typeof true; // "boolean"
+typeof undefined; // "undefined"
+typeof null; // "object" // known quirk
+typeof Symbol(); // "symbol"
+typeof {}; // "object"
+typeof []; // "object"
 
 // For arrays specifically
-Array.isArray([1,2,3]) // true
+Array.isArray([1, 2, 3]); // true
 ```
 
 ### Q4: What's the difference between `==` and `===`?
@@ -79,12 +81,12 @@ Array.isArray([1,2,3]) // true
 - `===` (strict equality) compares without any type conversion
 
 ```javascript
-5 == "5" // true (string coerced to number)
-5 === "5" // false (different types)
-null == undefined // true
-null === undefined // false
-0 == false // true
-0 === false // false
+5 == "5"; // true (string coerced to number)
+5 === "5"; // false (different types)
+null == undefined; // true
+null === undefined; // false
+0 == false; // true
+0 === false; // false
 ```
 
 ### Q5: What is the difference between `null` and `undefined`?
@@ -101,8 +103,8 @@ console.log(a); // null
 let b;
 console.log(b); // undefined
 
-typeof null // "object" (bug in JS)
-typeof undefined // "undefined"
+typeof null; // "object" (bug in JS)
+typeof undefined; // "undefined"
 ```
 
 ### Q6: What are the JavaScript operators?
@@ -116,15 +118,15 @@ typeof undefined // "undefined"
 
 ```javascript
 // Examples
-10 + 5 // 15
-10 - 5 // 5
-10 * 5 // 50
-10 / 5 // 2
-10 % 3 // 1
+10 + 5; // 15
+10 - 5; // 5
+10 * 5; // 50
+10 / 5; // 2
+10 % 3; // 1
 
-true && false // false
-true || false // true
-!true // false
+true && false; // false
+true || false; // true
+!true; // false
 ```
 
 ---
@@ -135,24 +137,28 @@ true || false // true
 
 **A:**
 
-| Feature | var | let | const |
-|---|---:|---:|---:|
-| Scope | Function | Block | Block |
-| Re-declaration | Yes | No | No |
-| Re-assignment | Yes | Yes | No |
-| Hoisting | Yes (initialized to undefined) | Yes (TDZ) | Yes (TDZ) |
-| Initialization Required | No | No | Yes |
+| Feature                 |                            var |       let |     const |
+| ----------------------- | -----------------------------: | --------: | --------: |
+| Scope                   |                       Function |     Block |     Block |
+| Re-declaration          |                            Yes |        No |        No |
+| Re-assignment           |                            Yes |       Yes |        No |
+| Hoisting                | Yes (initialized to undefined) | Yes (TDZ) | Yes (TDZ) |
+| Initialization Required |                             No |        No |       Yes |
 
 ```javascript
 // var - function scoped
 function example1() {
-  if (true) { var x = 10; }
+  if (true) {
+    var x = 10;
+  }
   console.log(x); // 10 (accessible)
 }
 
 // let - block scoped
 function example2() {
-  if (true) { let y = 20; }
+  if (true) {
+    let y = 20;
+  }
   // console.log(y); // ReferenceError
 }
 
@@ -177,10 +183,15 @@ Types of scope:
 ```javascript
 // Global
 var global = "I'm global";
-function test() { console.log(global); }
+function test() {
+  console.log(global);
+}
 
 // Function scoped
-function test2() { var local = "I'm local"; console.log(local); }
+function test2() {
+  var local = "I'm local";
+  console.log(local);
+}
 
 // Block scoped
 if (true) {
@@ -200,9 +211,9 @@ function outer() {
   const outerVar = "outer";
   function inner() {
     const innerVar = "inner";
-    console.log(innerVar);   // "inner"
-    console.log(outerVar);   // "outer"
-    console.log(global);     // "global"
+    console.log(innerVar); // "inner"
+    console.log(outerVar); // "outer"
+    console.log(global); // "global"
   }
   inner();
 }
@@ -215,15 +226,17 @@ outer();
 
 ```javascript
 // Traditional function
-function add(a, b) { return a + b; }
+function add(a, b) {
+  return a + b;
+}
 
 // Arrow function
 const addArrow = (a, b) => a + b;
 
-const square = x => x * x;
+const square = (x) => x * x;
 const multiply = (a, b) => a * b;
 
-const greet = name => {
+const greet = (name) => {
   const message = `Hello, ${name}!`;
   return message;
 };
@@ -240,8 +253,12 @@ const getRandom = () => Math.random();
 ```javascript
 const obj = {
   name: "John",
-  regularMethod: function() { console.log(this.name); }, // "John"
-  arrowMethod: () => { console.log(this.name); } // undefined (in many cases)
+  regularMethod: function () {
+    console.log(this.name);
+  }, // "John"
+  arrowMethod: () => {
+    console.log(this.name);
+  }, // undefined (in many cases)
 };
 ```
 
@@ -254,8 +271,8 @@ function greet(name = "Guest", greeting = "Hello") {
   return `${greeting}, ${name}!`;
 }
 
-greet();           // "Hello, Guest!"
-greet("John");   // "Hello, John!"
+greet(); // "Hello, Guest!"
+greet("John"); // "Hello, John!"
 greet("Jane", "Hi"); // "Hi, Jane!"
 
 const multiply = (a, b = 1) => a * b;
@@ -293,9 +310,15 @@ console.log(counter()); // 2
 function createCounter() {
   let count = 0;
   return {
-    increment() { return ++count; },
-    decrement() { return --count; },
-    getCount() { return count; }
+    increment() {
+      return ++count;
+    },
+    decrement() {
+      return --count;
+    },
+    getCount() {
+      return count;
+    },
   };
 }
 
@@ -322,7 +345,9 @@ var a = 5;
 
 // Function hoisting
 sayHello();
-function sayHello() { console.log("Hello!"); }
+function sayHello() {
+  console.log("Hello!");
+}
 
 // let / const are hoisted but uninitialized (TDZ)
 // console.log(b); // ReferenceError
@@ -357,7 +382,9 @@ function example() {
 ```javascript
 const obj = {
   name: "John",
-  greet() { console.log(this.name); }
+  greet() {
+    console.log(this.name);
+  },
 };
 obj.greet(); // "John"
 ```
@@ -393,8 +420,8 @@ const promise = new Promise((resolve, reject) => {
 });
 
 promise
-  .then(result => console.log(result)) // "Success!"
-  .catch(err => console.error(err))
+  .then((result) => console.log(result)) // "Success!"
+  .catch((err) => console.error(err))
   .finally(() => console.log("Done"));
 ```
 
@@ -411,17 +438,17 @@ promise
 ```javascript
 async function fetchData() {
   try {
-    const response = await fetch('https://api.example.com/data');
+    const response = await fetch("https://api.example.com/data");
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
   } finally {
-    console.log('Request completed');
+    console.log("Request completed");
   }
 }
 
-fetchData().then(data => console.log(data));
+fetchData().then((data) => console.log(data));
 ```
 
 ---
@@ -433,9 +460,11 @@ fetchData().then(data => console.log(data));
 **A:** A callback is a function passed as an argument to another function, which is called when some event occurs.
 
 ```javascript
-function greeting(name) { alert('Hello ' + name); }
+function greeting(name) {
+  alert("Hello " + name);
+}
 function processUserInput(callback) {
-  const name = prompt('Please enter your name.');
+  const name = prompt("Please enter your name.");
   callback(name);
 }
 processUserInput(greeting);
@@ -454,10 +483,10 @@ processUserInput(greeting);
 **A:** The Event Loop is JavaScript's mechanism for executing asynchronous callbacks. It continuously checks the call stack and task queues (microtask and macrotask).
 
 ```javascript
-console.log('Start');
-setTimeout(() => console.log('Timeout'), 0);
-Promise.resolve().then(() => console.log('Promise'));
-console.log('End');
+console.log("Start");
+setTimeout(() => console.log("Timeout"), 0);
+Promise.resolve().then(() => console.log("Promise"));
+console.log("End");
 
 // Output:
 // Start
@@ -481,23 +510,23 @@ console.log('End');
 - Non-mutating: `map`, `filter`, `reduce`, `find`, `includes`, `slice`
 
 ```javascript
-[1,2,3].map(x => x * 2); // [2,4,6]
-[1,2,3,4].filter(x => x > 2); // [3,4]
-[1,2,3,4].reduce((sum,x) => sum + x, 0); // 10
+[1, 2, 3].map((x) => x * 2); // [2,4,6]
+[1, 2, 3, 4].filter((x) => x > 2); // [3,4]
+[1, 2, 3, 4].reduce((sum, x) => sum + x, 0); // 10
 ```
 
 ### Q27: Working with objects
 
 ```javascript
-const obj = { name: 'John', age: 25 };
+const obj = { name: "John", age: 25 };
 obj.name; // "John"
-obj['age']; // 25
-obj.city = 'NYC';
+obj["age"]; // 25
+obj.city = "NYC";
 delete obj.age;
 Object.keys(obj); // ['name','city']
 Object.values(obj); // ['John','NYC']
 Object.entries(obj); // [['name','John'],['city','NYC']]
-const newObj = { ...obj, country: 'USA' };
+const newObj = { ...obj, country: "USA" };
 ```
 
 ---
@@ -507,25 +536,25 @@ const newObj = { ...obj, country: 'USA' };
 ### Q28: Destructuring
 
 ```javascript
-const [a,b,c] = [1,2,3];
-const [first, ...rest] = [1,2,3,4];
-const { name, age } = { name: 'John', age: 25 };
-const { name: personName } = { name: 'John' };
-const { country = 'USA' } = {};
+const [a, b, c] = [1, 2, 3];
+const [first, ...rest] = [1, 2, 3, 4];
+const { name, age } = { name: "John", age: 25 };
+const { name: personName } = { name: "John" };
+const { country = "USA" } = {};
 ```
 
 ### Q29: Spread and rest operators
 
 ```javascript
-const arr = [1,2,3];
+const arr = [1, 2, 3];
 const newArr = [...arr, 4, 5];
-const sum = (...numbers) => numbers.reduce((a,b) => a + b, 0);
+const sum = (...numbers) => numbers.reduce((a, b) => a + b, 0);
 ```
 
 ### Q30: Template literals
 
 ```javascript
-const name = 'John';
+const name = "John";
 const age = 25;
 const greeting = `Hello, ${name}!`;
 const result = `Sum: ${2 + 3}`; // "Sum: 5"
@@ -541,15 +570,17 @@ const result = `Sum: ${2 + 3}`; // "Sum: 5"
 
 ```javascript
 function withLogging(fn) {
-  return function(...args) {
-    console.log('Calling', fn.name);
+  return function (...args) {
+    console.log("Calling", fn.name);
     return fn(...args);
   };
 }
 
-function add(a,b) { return a + b; }
+function add(a, b) {
+  return a + b;
+}
 const addWithLogging = withLogging(add);
-addWithLogging(2,3); // Logs and returns 5
+addWithLogging(2, 3); // Logs and returns 5
 ```
 
 ---
@@ -561,9 +592,13 @@ addWithLogging(2,3); // Logs and returns 5
 **A:** Every JavaScript object has a prototype from which it inherits properties and methods.
 
 ```javascript
-function Person(name) { this.name = name; }
-Person.prototype.greet = function() { return `Hello, ${this.name}`; };
-const p = new Person('John');
+function Person(name) {
+  this.name = name;
+}
+Person.prototype.greet = function () {
+  return `Hello, ${this.name}`;
+};
+const p = new Person("John");
 console.log(p.greet()); // "Hello, John"
 ```
 
@@ -576,7 +611,7 @@ console.log(p.greet()); // "Hello, John"
 **A:** Currying converts a function that takes multiple arguments into a sequence of functions that each take a single argument.
 
 ```javascript
-const add = a => b => c => a + b + c;
+const add = (a) => (b) => (c) => a + b + c;
 add(1)(2)(3); // 6
 ```
 
@@ -596,6 +631,53 @@ function curry(fn) {
 
 ---
 
+## Memoization
+
+### Q37: What is memoization?
+
+**A:** Memoization is an optimization technique that caches the results of expensive function calls and returns the cached result when the same inputs occur again. It's most effective for pure functions (no side-effects, deterministic outputs for given inputs).
+
+```javascript
+// Generic memoize utility using a Map and JSON-serialized argument key
+function memoize(fn) {
+  const cache = new Map();
+  return function (...args) {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) return cache.get(key);
+    const result = fn.apply(this, args);
+    cache.set(key, result);
+    return result;
+  };
+}
+
+// Example: recursive Fibonacci (slow) vs memoized
+function slowFib(n) {
+  if (n <= 1) return n;
+  return slowFib(n - 1) + slowFib(n - 2);
+}
+
+const fastFib = memoize(function fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+});
+
+console.time("slow");
+// avoid large n for slowFib
+console.log(slowFib(20));
+console.timeEnd("slow");
+
+console.time("fast");
+console.log(fastFib(40)); // fast thanks to memoization
+console.timeEnd("fast");
+```
+
+**Notes:**
+
+- Use memoization for pure functions where repeated calls with same args occur.
+- Be careful with caching many unique inputs (memory growth); consider cache eviction strategies for long-running processes.
+
+---
+
 ## 14. Debounce & Throttle
 
 ### Q39: Debouncing
@@ -603,7 +685,7 @@ function curry(fn) {
 ```javascript
 function debounce(fn, delay) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timeout);
     timeout = setTimeout(() => fn(...args), delay);
   };
@@ -615,7 +697,7 @@ function debounce(fn, delay) {
 ```javascript
 function throttle(fn, delay) {
   let lastCall = 0;
-  return function(...args) {
+  return function (...args) {
     const now = Date.now();
     if (now - lastCall >= delay) {
       fn(...args);
@@ -632,7 +714,7 @@ function throttle(fn, delay) {
 ### Q42: `Array.prototype.map` polyfill
 
 ```javascript
-Array.prototype.myMap = function(callback, thisArg) {
+Array.prototype.myMap = function (callback, thisArg) {
   const result = [];
   for (let i = 0; i < this.length; i++) {
     result.push(callback.call(thisArg, this[i], i, this));
@@ -644,7 +726,7 @@ Array.prototype.myMap = function(callback, thisArg) {
 ### Q43: `Array.prototype.filter` polyfill
 
 ```javascript
-Array.prototype.myFilter = function(callback, thisArg) {
+Array.prototype.myFilter = function (callback, thisArg) {
   const result = [];
   for (let i = 0; i < this.length; i++) {
     if (callback.call(thisArg, this[i], i, this)) {
@@ -658,9 +740,9 @@ Array.prototype.myFilter = function(callback, thisArg) {
 ### Q44: `Array.prototype.reduce` polyfill
 
 ```javascript
-Array.prototype.myReduce = function(callback, initialValue) {
+Array.prototype.myReduce = function (callback, initialValue) {
   if (this.length === 0 && initialValue === undefined) {
-    throw new TypeError('Reduce of empty array with no initial value');
+    throw new TypeError("Reduce of empty array with no initial value");
   }
   let acc = initialValue;
   let startIndex = 0;
@@ -701,21 +783,23 @@ Handle events at a higher level (e.g., parent) and inspect `event.target` — ef
 
 ```javascript
 // GET
-fetch('https://api.example.com/users')
-  .then(r => r.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));
+fetch("https://api.example.com/users")
+  .then((r) => r.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));
 
 // POST
-fetch('https://api.example.com/users', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name: 'John', age: 25 })
-}).then(r => r.json()).then(data => console.log(data));
+fetch("https://api.example.com/users", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name: "John", age: 25 }),
+})
+  .then((r) => r.json())
+  .then((data) => console.log(data));
 
 // async/await
 async function getUsers() {
-  const response = await fetch('https://api.example.com/users');
+  const response = await fetch("https://api.example.com/users");
   return response.json();
 }
 ```
@@ -763,7 +847,99 @@ deep.nested.x = 99;
 // original.nested.x === 10
 ```
 
+## What is Deadlock?
+
+A **deadlock** occurs when two or more processes are waiting for each other to release resources, and none of them can proceed.
+
+### Classic Example (Multi-threaded Systems)
+
+- Process A waits for Resource B
+- Process B waits for Resource A
+- Neither can continue
+
+➡ System becomes permanently stuck.
+
 ---
+
+## Does Deadlock Happen in JavaScript?
+
+### Short Answer:
+
+Traditional deadlock **does NOT occur in JavaScript’s main thread** because:
+
+- JavaScript is **single-threaded**
+- It does not use traditional thread locks like Java or C++
+
+However, deadlock-like situations can occur logically in:
+
+- Promises
+- Async/Await
+- Event Loop misuse
+- Worker Threads (Node.js)
+- Shared memory with Atomics
+
+## What is Shadow DOM?
+
+The **Shadow DOM** is a web standard that allows you to encapsulate HTML, CSS, and JavaScript inside a separate, isolated DOM tree attached to an element.
+
+It is mainly used in **Web Components** to create reusable and fully encapsulated UI components.
+
+---
+
+## Why Do We Need Shadow DOM?
+
+Normally, in the DOM:
+
+- CSS is global
+- Styles can leak
+- JavaScript can accidentally modify elements
+- ID/class conflicts can occur
+
+Shadow DOM solves this by:
+
+- Encapsulating styles
+- Preventing CSS conflicts
+- Protecting internal structure
+- Creating reusable components
+
+---
+
+## Creating Shadow DOM
+
+```js
+const host = document.querySelector("#my-element");
+
+// Attach shadow root
+const shadowRoot = host.attachShadow({ mode: "open" });
+
+// Add content inside shadow DOM
+shadowRoot.innerHTML = `
+  <style>
+    p { color: red; }
+  </style>
+  <p>Hello from Shadow DOM</p>
+`;
+```
+
+### Shadow DOM Modes
+
+Open Mode
+
+```js
+element.attachShadow({ mode: "open" });
+```
+
+- Accessible via element.shadowRoot
+- Can inspect via JavaScript
+
+Closed Mode
+
+```js
+element.attachShadow({ mode: "closed" });
+```
+
+- element.shadowRoot returns null
+- Not accessible from outside
 
 ## Practice Tips for Interviews
 
