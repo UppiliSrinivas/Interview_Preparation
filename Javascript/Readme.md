@@ -1111,26 +1111,24 @@ document.getElementById("child").addEventListener("click", () => {
 
 **Event Capturing** - Events propagate from parent to child:
 ```javascript
-// GET
-fetch("https://api.example.com/users")
-  .then((r) => r.json())
-  .then((data) => console.log(data))
-  .catch((err) => console.error(err));
+document.getElementById("parent").addEventListener(
+    "click",
+    () => {
+        console.log("Parent clicked (capturing)");
+    },
+    true // capture phase
+);
 
-// POST
-fetch("https://api.example.com/users", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name: "John", age: 25 }),
-})
-  .then((r) => r.json())
-  .then((data) => console.log(data));
+document.getElementById("child").addEventListener(
+    "click",
+    () => {
+        console.log("Child clicked");
+    },
+    true
+);
 
-// Using async/await
-async function getUsers() {
-  const response = await fetch("https://api.example.com/users");
-  return response.json();
-}
+// Clicking child logs:
+// "Parent clicked (capturing)" then "Child clicked"
 ```
 
 ### Q49: What is a memory leak?
