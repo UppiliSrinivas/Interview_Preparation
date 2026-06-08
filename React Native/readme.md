@@ -144,29 +144,42 @@ Native
 
 **Answer:**
 
-JSI (JavaScript Interface) is a C++ layer that allows JavaScript and Native code to communicate directly without using the Bridge.
+JSI (JavaScript Interface) is a C++ layer that allows JavaScript and Native code to communicate directly without using the React Native Bridge.
 
-Old Architecture:
+**Old Architecture**
 
+```text
 JS
-↓
+ ↓
 Bridge
-↓
+ ↓
 Native
+```
 
-New Architecture:
+Every communication had to go through the Bridge, which introduced serialization/deserialization overhead.
 
+**New Architecture**
+
+```text
 JS
-↓
+ ↓
 JSI
-↓
+ ↓
 Native
+```
 
-Benefits:
+JSI removes the Bridge and enables direct communication between JavaScript and Native code.
 
-* Faster communication
-* Less serialization
-* Better performance
+**Benefits:**
+
+* Faster Communication
+* Less Serialization
+* Better Performance
+* Reduced Memory Usage
+
+**Interview Answer:**
+
+JSI is a C++ interface that allows JavaScript and Native code to communicate directly without using the Bridge, improving performance and reducing communication overhead.
 
 ---
 
@@ -174,13 +187,54 @@ Benefits:
 
 **Answer:**
 
-TurboModules are the next generation of Native Modules that support lazy loading and direct JSI communication.
+TurboModules are the next generation of Native Modules that use JSI for communication and support lazy loading.
 
-Benefits:
+**Old Native Modules**
 
-* Faster startup
-* Reduced memory usage
-* Better performance
+```text
+App Start
+   ↓
+Load All Native Modules
+```
+
+Example:
+
+* Camera
+* Bluetooth
+* GPS
+* Contacts
+* Printer
+
+Even unused modules were loaded during app startup.
+
+**TurboModules**
+
+```text
+App Start
+   ↓
+Load Nothing
+```
+
+When needed:
+
+```javascript
+Camera.open();
+```
+
+Then the Camera module loads.
+
+This is called **Lazy Loading**.
+
+**Benefits:**
+
+* Faster Startup Time
+* Reduced Memory Usage
+* Better Performance
+* Direct JSI Communication
+
+**Interview Answer:**
+
+TurboModules are Native Modules that load only when required and communicate through JSI instead of the Bridge, improving startup performance and reducing memory usage.
 
 ---
 
@@ -188,14 +242,52 @@ Benefits:
 
 **Answer:**
 
-Fabric is React Native's new rendering engine.
+Fabric is React Native's new rendering engine responsible for rendering and updating Native UI components efficiently.
 
-Responsibilities:
+**Old Rendering Flow**
+
+```text
+React
+ ↓
+Shadow Tree
+ ↓
+Bridge
+ ↓
+Native Views
+```
+
+This required multiple bridge communications.
+
+**Fabric Rendering Flow**
+
+```text
+React
+ ↓
+Fabric
+ ↓
+Native UI
+```
+
+Fabric removes bridge dependency and improves rendering efficiency.
+
+**Responsibilities:**
 
 * UI Rendering
 * Layout Calculations
 * Screen Updates
-* Better Animation Performance
+* Better Animations
+* Better Scrolling
+
+**Benefits:**
+
+* Faster Rendering
+* Better User Experience
+* Improved Scrolling
+* Concurrent Rendering Support
+
+**Interview Answer:**
+
+Fabric is React Native's new rendering engine that improves UI rendering performance by reducing bridge dependency and enabling more efficient updates to native components.
 
 ---
 
@@ -203,49 +295,58 @@ Responsibilities:
 
 **Answer:**
 
-The New Architecture solves:
+The old architecture relied heavily on the Bridge for communication.
 
-* Bridge bottlenecks
-* Slow startup
-* Heavy memory usage
-* Poor UI rendering performance
+```text
+JS
+ ↓
+Bridge
+ ↓
+Native
+```
 
-using:
+Problems:
+
+* Serialization Overhead
+* Slow Startup
+* Heavy Memory Usage
+* Performance Bottlenecks
+* Poor UI Rendering Performance
+
+React Native introduced:
 
 * JSI
 * TurboModules
 * Fabric
 
----
+to solve these issues.
 
-## Phase 2: Expo vs React Native CLI
-
-### Q13: What is Expo?
-
-**Answer:**
-
-Expo is a framework built on top of React Native that simplifies development by providing:
-
-* Expo SDK
-* Expo Go
-* OTA Updates
-* EAS Build
-
----
-
-### Q14: What is React Native CLI?
-
-**Answer:**
-
-React Native CLI provides full access to Android and iOS native projects.
-
-Project Structure:
+**New Architecture**
 
 ```text
-android/
-ios/
-src/
+JavaScript
+     │
+     ▼
+     JSI
+     │
+     ▼
+ TurboModules
+     │
+     ▼
+   Fabric
 ```
+
+**Benefits:**
+
+* Faster Startup
+* Better Memory Management
+* Faster Communication
+* Better Rendering
+* Improved User Experience
+
+**Interview Answer:**
+
+The New Architecture solves performance bottlenecks caused by the Bridge by introducing JSI, TurboModules, and Fabric, resulting in faster startup, better memory usage, and improved UI rendering.
 
 ---
 
@@ -253,73 +354,24 @@ src/
 
 **Answer:**
 
-| Feature         | Expo      | RN CLI    |
-| --------------- | --------- | --------- |
-| Setup           | Easy      | Moderate  |
-| Native Access   | Limited   | Full      |
-| OTA Updates     | Built-in  | Manual    |
-| Native Modules  | Limited   | Full      |
-| Enterprise Apps | Sometimes | Preferred |
+| Feature             | Expo             | React Native CLI |
+| ------------------- | ---------------- | ---------------- |
+| Setup               | Easy             | Moderate         |
+| Native Access       | Limited          | Full             |
+| Android/iOS Folders | Hidden Initially | Available        |
+| OTA Updates         | Built-in         | Manual Setup     |
+| Native Modules      | Limited          | Full Support     |
+| Build Configuration | Managed          | Full Control     |
+| Enterprise Apps     | Sometimes        | Preferred        |
 
----
-
-### Q16: What is Expo Go?
-
-**Answer:**
-
-Expo Go allows developers to run and test Expo applications instantly by scanning a QR code.
-
----
-
-### Q17: What is EAS Build?
-
-**Answer:**
-
-EAS Build is Expo's cloud build service for generating Android and iOS builds.
-
----
-
-### Q18: What are OTA Updates?
-
-**Answer:**
-
-OTA (Over-The-Air) updates allow JavaScript updates to be delivered without publishing a new app version to the Play Store or App Store.
-
----
-
-### Q19: What is Expo Prebuild?
-
-**Answer:**
-
-```bash
-npx expo prebuild
-```
-
-Generates:
-
-```text
-android/
-ios/
-```
-
-folders, allowing native customization.
-
----
-
-### Q20: When would you choose Expo?
-
-**Answer:**
+**When to use Expo?**
 
 * MVP Development
 * Rapid Development
 * Startup Applications
-* Internal Business Applications
+* Internal Applications
 
----
-
-### Q21: When would you choose React Native CLI?
-
-**Answer:**
+**When to use React Native CLI?**
 
 * Banking Applications
 * Fintech Applications
@@ -327,96 +379,9 @@ folders, allowing native customization.
 * Enterprise Applications
 * Custom Native SDK Integrations
 
----
+**Interview Answer:**
 
-## Phase 3: FlatList & Optimization
-
-### Q22: Why FlatList?
-
-**Answer:**
-
-FlatList uses virtualization to render only visible items instead of rendering the entire dataset.
-
-Benefits:
-
-* Lower Memory Usage
-* Better Scrolling Performance
-* Faster Rendering
-
----
-
-### Q23: What is Virtualization?
-
-**Answer:**
-
-Virtualization is the process of rendering only visible items and removing off-screen items from memory.
-
----
-
-### Q24: How do you optimize FlatList?
-
-**Answer:**
-
-1. React.memo
-2. useCallback
-3. keyExtractor
-4. getItemLayout
-5. Pagination
-6. FlashList
-7. removeClippedSubviews
-
----
-
-### Q25: What is getItemLayout?
-
-**Answer:**
-
-Used when item height is fixed.
-
-Example:
-
-```javascript
-getItemLayout={(data,index)=>({
- length:80,
- offset:80*index,
- index
-})}
-```
-
-Benefits:
-
-* Faster scrolling
-* Faster scrollToIndex
-
----
-
-### Q26: What is keyExtractor?
-
-**Answer:**
-
-Provides a unique key for each list item.
-
-Example:
-
-```javascript
-keyExtractor={(item)=>item.id}
-```
-
----
-
-### Q27: Why use React.memo in FlatList?
-
-**Answer:**
-
-Prevents unnecessary re-renders of item components.
-
----
-
-### Q28: Why use useCallback with renderItem?
-
-**Answer:**
-
-Prevents recreation of renderItem function on every render.
+Expo is best for rapid development and simpler projects, while React Native CLI is preferred when full native customization and enterprise-level integrations are required.
 
 ---
 
@@ -424,12 +389,14 @@ Prevents recreation of renderItem function on every render.
 
 **Answer:**
 
-A callback triggered when the user scrolls near the end of the list.
+`onEndReached` is a FlatList callback that gets triggered when the user scrolls near the end of the list.
 
 Used for:
 
 * Pagination
 * Infinite Scrolling
+* Social Media Feeds
+* Product Listings
 
 Example:
 
@@ -437,13 +404,29 @@ Example:
 onEndReached={fetchNextPage}
 ```
 
+Flow:
+
+```text
+User Scrolls
+      ↓
+Near End of List
+      ↓
+onEndReached Fires
+      ↓
+Fetch Next Page
+```
+
+**Interview Answer:**
+
+onEndReached is used to load additional data when the user scrolls near the end of a FlatList, commonly used for pagination and infinite scrolling.
+
 ---
 
 ### Q30: What is onEndReachedThreshold?
 
 **Answer:**
 
-Controls how close to the end of the list the user must be before onEndReached is triggered.
+`onEndReachedThreshold` controls how close to the end of the list the user must be before `onEndReached` is triggered.
 
 Example:
 
@@ -451,27 +434,32 @@ Example:
 onEndReachedThreshold={0.5}
 ```
 
-Means:
+Meaning:
 
-Trigger when the user is within half a screen height from the bottom.
+```text
+Viewport Height = 800px
 
----
+0.5 × 800 = 400px
+```
 
-### Q31: Why does onEndReached fire multiple times?
+`onEndReached` will trigger when the user is approximately 400px from the bottom.
 
-**Answer:**
-
-Reasons:
-
-* Fast scrolling
-* Missing loading flag
-* Re-renders
-
-Solution:
+Common Values:
 
 ```javascript
-if(loading) return;
+0.3
+0.5
 ```
+
+**Benefits:**
+
+* Fetches data early
+* Prevents loading delays
+* Smooth scrolling experience
+
+**Interview Answer:**
+
+onEndReachedThreshold determines how early FlatList should trigger onEndReached before the user reaches the end of the list.
 
 ---
 
