@@ -1,11 +1,5 @@
 # JavaScript Interview Questions – Phase-wise Preparation for 6 Years Frontend Engineer
 
-Source reference: https://github.com/sudheerj/javascript-interview-questions
-
-> This file is curated from the JavaScript interview question collection and organized for a 6-year frontend engineer. Start from Phase 1 and move phase by phase. For each question, prepare: definition, real-time use case, code example, edge cases, and interview-level explanation.
-
----
-
 ## Phase 1 – JavaScript Fundamentals & Execution Basics
 
 **Goal:** Build strong clarity on JS basics, runtime behavior, and core syntax.
