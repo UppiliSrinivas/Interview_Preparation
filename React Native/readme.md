@@ -908,3 +908,5 @@ Benefits:
 **Interview Answer:**
 
 getItemLayout improves performance by avoiding runtime layout measurements and allowing FlatList to calculate item positions instantly.
+
+
