@@ -270,3 +270,100 @@ Benefits:
 **Interview Answer:**
 
 getItemLayout improves performance by avoiding runtime layout measurements and allowing FlatList to calculate item positions instantly.
+
+---
+
+### Q64: What is Pagination in FlatList?
+
+**Answer:**
+
+Pagination loads data in smaller chunks instead of fetching everything at once.
+
+Example:
+
+```javascript
+const loadMore = async () => {
+  if (loading) return;
+  setLoading(true);
+  const nextData = await fetchNextPage();
+  setData((prev) => [...prev, ...nextData]);
+  setLoading(false);
+};
+
+<FlatList
+  data={data}
+  onEndReached={loadMore}
+  onEndReachedThreshold={0.5}
+  renderItem={renderItem}
+/>;
+```
+
+**Benefits:**
+
+* Improves initial load time
+* Reduces memory usage
+* Makes large lists more manageable
+
+**Interview Answer:**
+
+Pagination helps load data incrementally, improving performance and user experience for large datasets.
+
+---
+
+### Q65: What is removeClippedSubviews?
+
+**Answer:**
+
+removeClippedSubviews tells React Native to unmount views that are outside the visible viewport.
+
+Example:
+
+```javascript
+<FlatList
+  data={data}
+  removeClippedSubviews={true}
+  renderItem={renderItem}
+/>
+```
+
+**Benefits:**
+
+* Reduces memory usage
+* Improves scrolling performance
+* Helps with long lists
+
+**Interview Answer:**
+
+removeClippedSubviews improves performance by releasing offscreen views from memory while scrolling.
+
+---
+
+### Q66: What is FlashList?
+
+**Answer:**
+
+FlashList is a high-performance list component built for React Native, especially for large datasets.
+
+It is often faster than FlatList because it uses better recycling and rendering techniques.
+
+Example:
+
+```javascript
+import { FlashList } from "@shopify/flash-list";
+
+<FlashList
+  data={data}
+  estimatedItemSize={80}
+  renderItem={renderItem}
+/>;
+```
+
+**Benefits:**
+
+* Better performance for large lists
+* Smoother scrolling
+* Lower memory overhead
+
+**Interview Answer:**
+
+FlashList is a faster alternative to FlatList for large lists and is commonly used when performance is critical.
