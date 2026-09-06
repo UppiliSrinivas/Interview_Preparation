@@ -4,7 +4,7 @@
 
 Product-based companies expect engineers to write scalable, maintainable, testable, and reusable code. These principles help you design better frontend and backend applications and are commonly discussed in LLD, HLD, React, JavaScript, and System Design interviews.
 
----
+
 
 # 1. SOLID Principles ⭐⭐⭐⭐⭐
 
@@ -48,7 +48,7 @@ class UserService {
 }
 ```
 
----
+
 
 # 2. DRY (Don't Repeat Yourself) ⭐⭐⭐⭐⭐
 
@@ -69,7 +69,7 @@ function calculateTax(amount) {
 }
 ```
 
----
+
 
 # 3. KISS (Keep It Simple, Stupid) ⭐⭐⭐⭐⭐
 
@@ -87,7 +87,7 @@ if (isLoggedIn === true) {}
 if (isLoggedIn) {}
 ```
 
----
+
 
 # 4. Separation of Concerns (SoC) ⭐⭐⭐⭐⭐
 
@@ -114,7 +114,7 @@ src/
 ├── pages/
 ```
 
----
+
 
 # 5. Composition Over Inheritance ⭐⭐⭐⭐⭐
 
@@ -140,7 +140,7 @@ class Admin extends User {}
 
 React heavily relies on composition.
 
----
+
 
 # 6. High Cohesion & Low Coupling ⭐⭐⭐⭐
 
@@ -166,7 +166,7 @@ UserService
 
 Loose coupling improves maintainability and testing.
 
----
+
 
 # 7. Dependency Injection (DI) ⭐⭐⭐⭐
 
@@ -198,7 +198,7 @@ Benefits:
 * Better flexibility
 * Reduced coupling
 
----
+
 
 # 8. YAGNI (You Aren't Gonna Need It) ⭐⭐⭐⭐
 
@@ -219,7 +219,7 @@ Before users need them.
 
 Build only current business requirements.
 
----
+
 
 # 9. Encapsulation ⭐⭐⭐
 
@@ -241,7 +241,7 @@ Benefits:
 * Easier maintenance
 * Cleaner APIs
 
----
+
 
 # 10. Law of Demeter ⭐⭐⭐
 
@@ -261,7 +261,7 @@ user.getCityName()
 
 Reduces coupling and complexity.
 
----
+
 
 # Interview Priority Order
 
@@ -274,7 +274,7 @@ Reduces coupling and complexity.
 5. Composition Over Inheritance
 6. High Cohesion & Low Coupling
 
----
+
 
 ## Good to Know
 
@@ -283,7 +283,7 @@ Reduces coupling and complexity.
 9. Encapsulation
 10. Law of Demeter
 
----
+
 
 # 30-Second Interview Answer
 

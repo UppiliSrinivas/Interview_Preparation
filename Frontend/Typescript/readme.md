@@ -6,7 +6,7 @@
 **Q: What's the difference between `interface` and `type` in TypeScript?**
 
 **A:**
-- **Declaration merging:** Interfaces with the same name automatically merge together. Type aliases throw an error if redeclared.
+**Declaration merging:** Interfaces with the same name automatically merge together. Type aliases throw an error if redeclared.
 - **Flexibility:** `type` can represent unions, intersections, tuples, and primitive aliases. `interface` is meant for object/class shapes only.
 - **Extending:** Interfaces use `extends`. Type aliases use intersections (`&`).
 - **Classes:** `interface` reads naturally with `implements` for class contracts.
