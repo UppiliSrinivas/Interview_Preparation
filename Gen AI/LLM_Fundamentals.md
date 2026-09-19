@@ -517,8 +517,7 @@ important to each other.
 
 # 12. What is Self-Attention?
 
-**Self-attention** means tokens in a sequence attend to other tokens
-within the same sequence.
+**Self-attention** means that the tokens in a sequence pay attention to other tokens within the same sequence.
 
 For example:
 

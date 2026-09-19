@@ -4,7 +4,7 @@
 ## 1. `interface` vs `type`
 
 **Q: What's the difference between `interface` and `type` in TypeScript?**
-
+d
 **A:**
 **Declaration merging:** Interfaces with the same name automatically merge together. Type aliases throw an error if redeclared.
 - **Flexibility:** `type` can represent unions, intersections, tuples, and primitive aliases. `interface` is meant for object/class shapes only.
