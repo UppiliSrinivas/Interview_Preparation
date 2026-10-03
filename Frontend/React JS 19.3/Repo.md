@@ -22,7 +22,6 @@
 * [ ] Q16. What are Synthetic Events?
 * [ ] Q17. What is Strict Mode?
 * [ ] Q18. What are Refs?
-* [ ] Q19. What is Forward Ref?
 * [ ] Q20. What are Controlled Components?
 * [ ] Q21. What are Uncontrolled Components?
 
@@ -122,7 +121,6 @@
 * [ ] Q81. Context vs Props
 * [ ] Q82. What are Portals?
 * [ ] Q83. Compound Components
-* [ ] Q84. Forward Ref Deep Dive
 * [ ] Q85. useImperativeHandle
 * [ ] Q86. What are React Patterns?
 * [ ] Q87. Why Composition over Inheritance?
@@ -285,7 +283,6 @@
 
 * [ ] Q170. What's new in React 19 Refs?
 * [ ] Q171. Ref as a Prop
-* [ ] Q172. forwardRef relevance in React 19
 * [ ] Q173. Ref handling improvements
 
 ---
@@ -321,6 +318,78 @@
 * [ ] Q190. Explain React Compiler.
 * [ ] Q191. React 18 vs React 19 comparison.
 * [ ] Q192. Future roadmap of React.
+
+---
+
+# Phase 11B - React 19.3 (Sept 2026)
+
+> Source: https://react.dev/blog/2026/09/09/react-19-3
+> Numbered Q396+ so existing Q-numbers stay unchanged.
+
+## 19.3 Overview
+
+* [ ] Q396. What's new in React 19.3?
+* [ ] Q397. Which experimental APIs became stable in React 19.3?
+
+---
+
+## View Transitions
+
+* [ ] Q398. What is `<ViewTransition>` and what problem does it solve?
+* [ ] Q399. What are the four animation triggers (enter, exit, update, share)?
+* [ ] Q400. Why don't non-Transition updates trigger View Transition animations?
+* [ ] Q401. How do you customize View Transition animations?
+* [ ] Q402. What is `addTransitionType` and when do you use it?
+* [ ] Q403. How do View Transitions integrate with Suspense? What are the UX principles?
+* [ ] Q404. What does `<ViewTransition update="auto" default="none">` do?
+* [ ] Q405. How can View Transitions coordinate image and font loading with Suspense?
+* [ ] Q406. What are the current limitations of `<ViewTransition>`?
+
+---
+
+## Fragment Refs
+
+* [ ] Q407. What are Fragment Refs?
+* [ ] Q408. What problems do Fragment Refs solve (vs wrapper div / ref prop)?
+* [ ] Q409. What methods does `FragmentInstance` expose?
+* [ ] Q410. Build an `InView` component using Fragment Refs
+
+---
+
+## React DOM Features
+
+* [ ] Q412. What is `use(browser())` in React 19.3?
+* [ ] Q413. How does `use(browser())` behave on the server vs the client?
+* [ ] Q414. `use(browser())` vs `mounted` state/effect vs `typeof window` check
+* [ ] Q415. How to conditionally opt out of SSR (e.g., `useBrowserQuery`)?
+* [ ] Q416. What is Trusted Types support in React 19.3?
+* [ ] Q417. Why did React's string coercion break Trusted Types before?
+
+---
+
+## Server Components
+
+* [ ] Q418. How can Server Components render Context directly in 19.3?
+* [ ] Q419. Provider wrapper (before) vs direct `<Context>` rendering (after)
+
+---
+
+## Changelog & Bug Fixes
+
+* [ ] Q420. What changed in how Transitions are rendered (independent Transitions)?
+* [ ] Q421. Strict Mode double-invoking Effects during hydration
+* [ ] Q422. Form-related changes (`onReset`, `submitter`, form status fix)
+* [ ] Q423. Other notable DOM/Server changes (fullscreen events, `fetchPriority`, `Error.cause`, `<Activity>` in Flight)
+* [ ] Q424. Notable bug fixes (`useDeferredValue`, `useSyncExternalStore`, `useEffectEvent`, Fast Refresh)
+
+---
+
+## Interview-Style (19.3)
+
+* [ ] Q425. Explain View Transitions with a carousel example.
+* [ ] Q426. When should you NOT animate Suspense boundaries?
+* [ ] Q427. How would you remove Provider wrapper boilerplate in an RSC app?
+* [ ] Q428. What would you highlight about React 19.3 in an interview?
 
 ---
 
@@ -465,55 +534,6 @@ Q244. What is CI/CD?
 
 Q251. How would you structure a large React application?
 
-
-# Phase 13 - Browser Fundamentals
-
-## Browser Internals
-
-* [ ] Q256. What is DOM?
-* [ ] Q257. What is BOM?
-* [ ] Q258. DOM vs BOM
-* [ ] Q259. Browser Rendering Pipeline
-* [ ] Q260. Critical Rendering Path
-* [ ] Q261. Reflow
-* [ ] Q262. Repaint
-* [ ] Q263. Reflow vs Repaint
-
----
-
-## JavaScript Runtime
-
-* [ ] Q264. What is Event Loop?
-* [ ] Q265. What is Call Stack?
-* [ ] Q266. What is Web API?
-* [ ] Q267. What is Callback Queue?
-* [ ] Q268. What is Microtask Queue?
-* [ ] Q269. What is Macrotask Queue?
-* [ ] Q270. Promise vs setTimeout Execution Order
-* [ ] Q271. Event Loop Execution Flow
-
----
-
-## Browser Storage
-
-* [ ] Q272. localStorage
-* [ ] Q273. sessionStorage
-* [ ] Q274. Cookies
-* [ ] Q275. IndexedDB
-* [ ] Q276. Browser Storage Comparison
-
----
-
-## Browser Features
-
-* [ ] Q277. Service Workers
-* [ ] Q278. Browser Caching
-* [ ] Q279. Cache-Control Headers
-* [ ] Q280. What is CORS?
-* [ ] Q281. Same-Origin Policy
-* [ ] Q282. Preflight Requests
-
----
 
 # Phase 14 - Frontend Security
 
@@ -731,42 +751,6 @@ Q251. How would you structure a large React application?
 
 ---
 
-# Phase 20 - Behavioral & Experience
-
-## General
-
-* [ ] Q382. Tell Me About Yourself
-* [ ] Q383. Why React?
-* [ ] Q384. Why Are You Looking For Change?
-
----
-
-## Project Experience
-
-* [ ] Q385. Project Explanation
-* [ ] Q386. Architecture Decisions
-* [ ] Q387. Biggest Technical Challenge
-* [ ] Q388. Production Issue Handling
-
----
-
-## Performance
-
-* [ ] Q389. Performance Issue You Solved
-* [ ] Q390. Optimization Techniques Used
-
----
-
-## Team Collaboration
-
-* [ ] Q391. Code Review Process
-* [ ] Q392. Team Collaboration
-* [ ] Q393. Conflict Resolution
-* [ ] Q394. Mentoring Junior Developers
-* [ ] Q395. Leadership Experience
-
----
-
 # High Priority Topics ⭐⭐⭐⭐⭐
 
 1. Hooks
@@ -781,14 +765,13 @@ Q251. How would you structure a large React application?
 10. Redux Toolkit
 11. Context API
 12. React 18 Features
-13. React 19 Features
+13. React 19 & 19.3 Features (View Transitions, Fragment Refs)
 14. Vite
 15. Webpack
 16. Babel
-17. Event Loop
-18. JWT Authentication
-19. TypeScript
-20. React System Design
+17. JWT Authentication
+18. TypeScript
+19. React System Design
 
 ---
 
@@ -804,13 +787,11 @@ Phase 7  - State Management
 Phase 8  - React Router
 Phase 9  - Testing
 Phase 10 - React 18
-Phase 11 - React 19
+Phase 11 - React 19 (+ 11B: React 19.3)
 Phase 12 - Build Tools & Frontend Architecture
-Phase 13 - Browser Fundamentals
 Phase 14 - Frontend Security
 Phase 15 - Accessibility (A11Y)
 Phase 16 - API & Networking
 Phase 17 - TypeScript
 Phase 18 - React System Design
 Phase 19 - Frontend Coding Round
-Phase 20 - Behavioral & Experience
