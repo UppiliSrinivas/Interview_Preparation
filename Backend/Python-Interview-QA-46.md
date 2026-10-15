@@ -1,20 +1,6 @@
-# Python Interview Q&A: Round 2 (Python + FastAPI)
+# Python Interview Q&A: (Python + FastAPI)
 
-> Built from your topic list: collections, `*args`/`**kwargs`, `==` vs `is`, functions and lambda, comprehensions, exceptions, OOP and `self`, decorators, generators, iterators, async/await, threads vs processes, memory and the GIL, and FastAPI. Extra topics (copying, closures, context managers, testing, coding problems) are added because they come up in the same interviews.
->
-> **46 questions · 10 sections.** Each answer explains the idea in plain English, then shows code, then gives a one-line **Interview soundbite** you can say out loud. Every code block was run, so the outputs in the comments are real.
->
-> **Python only:** no comparisons with other languages, just the core language, concurrency, memory, and FastAPI.
 
-<a id="plan"></a>
-## Study Plan (round 2 is Wednesday, 9 AM)
-
-| Priority | Questions | Why |
-|---|---|---|
-| **1: Must read** | [Q1–10](#s1) data structures, functions, `==` vs `is` · [Q23](#q23) decorators · [Q25–27](#s7) GIL, threads, async · [Q32–37](#s9) FastAPI | Asked in almost every Python screen |
-| **2: Should read** | [Q11–13](#s3) comprehensions, iterators, generators · [Q14–16](#s4) exceptions · [Q17–22](#s5) OOP · [Q46](#q46) type hints, dataclasses, Pydantic | Fundamentals round |
-| **3: Skim** | [Q29–31](#s8) memory · [Q28](#q28) locks · [Q40](#q40) database | Deeper follow-ups |
-| **Morning** | [Q45](#q45) rapid-fire · [Q43–44](#q43) coding problems and output puzzles | Warm-up |
 
 <a id="toc"></a>
 ## Table of Contents
