@@ -89,7 +89,7 @@ Gotchas interviewers like:
 ```python
 nums = [3, 1, 2, 3]
 nums.append(4)
-nums.sort()
+nums.sort() 
 print(nums)                         # [1, 2, 3, 3, 4]
 
 point = (10, 20)                    # fixed record
