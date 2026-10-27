@@ -65,7 +65,7 @@ URL typed
 ---
 
 ## 2. Browser Checks Before Any Network Call
-
+  
 Before sending anything over the network, the browser tries to avoid work.
 
 | Check | What it does |
