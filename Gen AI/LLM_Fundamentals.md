@@ -1,4 +1,4 @@
-# PwC AI Engineer Interview Preparation --- LLM Fundamentals
+#  LLM Fundamentals
 
 > A simple, interview-oriented guide covering the LLM fundamentals we
 > have studied so far.

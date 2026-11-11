@@ -231,6 +231,92 @@ Context re-renders **every consumer** when the value changes and has no selector
 
 ---
 
+## Part 6 — Under the Hood
+
+### 23. What is `useSyncExternalStore` and why does it matter?
+A React hook (React 18+) for subscribing to **external stores** — anything outside React state (Zustand, Redux, browser APIs like `navigator.onLine`, `matchMedia`).
+```js
+const value = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?);
+```
+- `subscribe(callback)` — register a listener; return an unsubscribe function.
+- `getSnapshot()` — return the current value. **Must return the same reference if nothing changed**, otherwise React re-renders forever.
+- `getServerSnapshot()` — value used during SSR and hydration.
+
+**Why it exists:** with concurrent rendering, a component tree can read an external store at different moments during one render and show inconsistent values (**tearing**). `useSyncExternalStore` guarantees a consistent snapshot. Zustand, Redux (`react-redux`), and others use it internally.
+
+Small real-world example:
+```js
+function useOnlineStatus() {
+  return useSyncExternalStore(
+    (cb) => {
+      window.addEventListener('online', cb);
+      window.addEventListener('offline', cb);
+      return () => {
+        window.removeEventListener('online', cb);
+        window.removeEventListener('offline', cb);
+      };
+    },
+    () => navigator.onLine,
+    () => true,   // server: assume online
+  );
+}
+```
+
+### 24. Build a mini Zustand from scratch. (Popular live-coding task)
+```js
+import { useSyncExternalStore } from 'react';
+
+function create(createState) {
+  let state;
+  const listeners = new Set();
+
+  const getState = () => state;
+
+  const setState = (partial, replace = false) => {
+    const next = typeof partial === 'function' ? partial(state) : partial;
+    if (Object.is(next, state)) return;
+    state = replace ? next : { ...state, ...next };   // shallow merge, like Zustand
+    listeners.forEach((l) => l());
+  };
+
+  const subscribe = (listener) => {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  };
+
+  state = createState(setState, getState);
+
+  function useStore(selector = (s) => s) {
+    return useSyncExternalStore(
+      subscribe,
+      () => selector(getState()),
+      () => selector(getState()),
+    );
+  }
+
+  Object.assign(useStore, { getState, setState, subscribe });
+  return useStore;
+}
+
+// Usage — identical to real Zustand
+const useCounter = create((set) => ({
+  count: 0,
+  inc: () => set((s) => ({ count: s.count + 1 })),
+}));
+
+function Counter() {
+  const count = useCounter((s) => s.count);
+  const inc = useCounter((s) => s.inc);
+  return <button onClick={inc}>{count}</button>;
+}
+```
+What to explain while coding:
+- **Selectors prevent re-renders** because `useSyncExternalStore` compares snapshots with `Object.is` — a component re-renders only when *its* selected value changes.
+- **Why selectors returning new objects break it:** `getSnapshot` would return a new reference every call → infinite re-render. Real Zustand solves this with `useShallow`.
+- **No Provider needed** because the store lives in a closure at module level — which is also exactly why SSR needs a per-request store (Q16).
+
+---
+
 ## Rapid-Fire
 
 | Question | Answer |

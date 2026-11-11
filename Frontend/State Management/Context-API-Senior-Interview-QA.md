@@ -210,6 +210,63 @@ Zustand needs no Provider, supports selectors (components re-render only for the
 
 ---
 
+## Part 5 — Prove It (Live Demos)
+
+### 22. Show that `React.memo` doesn't stop context re-renders.
+A classic interview demo — be ready to code and explain it.
+```jsx
+const CountContext = createContext(0);
+
+const Display = memo(function Display() {
+  const count = useContext(CountContext);
+  console.log('Display rendered');
+  return <p>{count}</p>;
+});
+
+const Static = memo(function Static() {
+  console.log('Static rendered');      // never logs after mount
+  return <p>I don't use context</p>;
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <CountContext value={count}>
+      <button onClick={() => setCount((c) => c + 1)}>+1</button>
+      <Display />   {/* re-renders on every click despite memo */}
+      <Static />    {/* skipped — memo works because props didn't change */}
+    </CountContext>
+  );
+}
+```
+**Explain:** `memo` only compares **props**. Context is a separate subscription — when the Provider's value changes, React re-renders every consumer directly, regardless of `memo`. `Static` is skipped because it doesn't consume the context and its props are unchanged.
+
+**Follow-up — the "memo the expensive child" fix:** split the consumer so only a tiny component reads context and passes primitives down to a memoized expensive child.
+```jsx
+function DisplayContainer() {
+  const count = useContext(CountContext);
+  return <ExpensiveChart count={count} />;   // ExpensiveChart is memo'd
+}
+```
+
+### 23. You need just one field from a large, frequently updated context. How do you avoid re-rendering every consumer?
+Options, in order of preference:
+1. **Split the context** by field/update frequency so consumers subscribe only to what they use.
+2. **Move the state to a store with selectors** (Zustand / Redux) — usually the right answer when this problem appears.
+3. **`use-context-selector`** library — adds selector support to context.
+4. **Context as a subscription channel** — put a *stable store object* in context (it never changes, so context never triggers re-renders) and read slices with `useSyncExternalStore`. This is exactly how Redux and Zustand's SSR pattern work.
+```jsx
+const StoreContext = createContext(null);   // value = stable store, never changes
+
+function useStoreSelector(selector) {
+  const store = useContext(StoreContext);
+  return useSyncExternalStore(store.subscribe, () => selector(store.getState()));
+}
+```
+**Good answer:** "If I need selectors on context, that's a signal context is the wrong tool — I'd move that state to Zustand or Redux, and keep context for dependency injection."
+
+---
+
 ## Rapid-Fire
 
 | Question | Answer |

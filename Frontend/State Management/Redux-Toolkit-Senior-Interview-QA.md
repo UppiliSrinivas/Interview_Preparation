@@ -266,6 +266,102 @@ serializableCheck: { ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, R
 
 ---
 
+## Part 6 — Under the Hood (Thunk & Middleware Internals)
+
+### 23. How does redux-thunk work internally?
+A thunk is a **function action**. Plain Redux only accepts plain-object actions, so the thunk middleware intercepts functions before they reach the reducer and calls them with `dispatch` and `getState`. Objects pass through untouched.
+
+The entire core idea fits in a few lines:
+```js
+const thunk = ({ dispatch, getState }) => (next) => (action) => {
+  if (typeof action === 'function') {
+    return action(dispatch, getState);   // run the thunk, give it store access
+  }
+  return next(action);                   // plain object → continue to reducer
+};
+```
+Writing a thunk by hand (what `createAsyncThunk` generates for you):
+```js
+export const fetchUser = (id) => async (dispatch, getState) => {
+  if (getState().user.status === 'loading') return;   // avoid duplicate requests
+  dispatch({ type: 'user/pending' });
+  try {
+    const data = await api.getUser(id);
+    dispatch({ type: 'user/fulfilled', payload: data });
+  } catch (e) {
+    dispatch({ type: 'user/rejected', error: e.message });
+  }
+};
+
+dispatch(fetchUser(1));
+```
+Senior points:
+- RTK's `configureStore` includes thunk by default; `createAsyncThunk` is a standardized thunk that also generates the `pending/fulfilled/rejected` actions.
+- `thunk.withExtraArgument(api)` (or `getDefaultMiddleware({ thunk: { extraArgument: api } })`) injects dependencies such as an API client — easier testing than importing globals.
+- The thunk's return value is returned from `dispatch`, which is why `await dispatch(fetchUser(1))` and `.unwrap()` work.
+
+### 24. Explain the middleware signature and write a custom middleware.
+Middleware sits **between `dispatch` and the reducer**. The curried signature is `store => next => action => result`:
+- `store` — `{ dispatch, getState }`
+- `next` — passes the action to the next middleware (or the reducer)
+- `action` — the dispatched action
+
+**Logger middleware** (a classic interview task):
+```js
+const logger = (store) => (next) => (action) => {
+  console.group(action.type);
+  console.log('prev state', store.getState());
+  const result = next(action);            // let the action through
+  console.log('next state', store.getState());
+  console.groupEnd();
+  return result;
+};
+```
+**Analytics / side-effect middleware:**
+```js
+const analytics = () => (next) => (action) => {
+  if (action.type === 'cart/itemAdded') track('add_to_cart', action.payload);
+  return next(action);
+};
+
+configureStore({
+  reducer,
+  middleware: (getDefault) => getDefault().concat(logger, analytics),
+});
+```
+Senior points:
+- **Why curried?** Each layer is configured once (`store`, then `next` when the chain is composed) and only the innermost function runs per dispatch.
+- **Order matters** — middleware runs in array order; thunk must come before middleware that expects plain objects.
+- Calling `store.dispatch` inside middleware re-enters the **whole chain**; calling `next` continues from the current position.
+- For "when action X happens, do Y" logic, prefer `createListenerMiddleware` over hand-written middleware.
+
+### 25. Implement a mini `createStore` from scratch.
+Shows you understand Redux's core: state + reducer + subscribers.
+```js
+function createStore(reducer, initialState) {
+  let state = initialState;
+  const listeners = new Set();
+
+  return {
+    getState: () => state,
+    dispatch(action) {
+      state = reducer(state, action);
+      listeners.forEach((l) => l());
+      return action;
+    },
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);   // unsubscribe
+    },
+  };
+}
+```
+Follow-ups to be ready for:
+- **How does `react-redux` connect this to React?** `useSelector` subscribes via `useSyncExternalStore`, re-runs the selector on each dispatch, and re-renders only if the selected value changed (`===`).
+- **How would you add middleware?** Wrap `dispatch` by composing middleware from right to left — that's what `applyMiddleware` does.
+
+---
+
 ## Rapid-Fire Basics (one-liners)
 
 | Question | Answer |
